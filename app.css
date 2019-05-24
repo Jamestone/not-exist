@@ -1,0 +1,76 @@
+
+    /* 全局样式 */
+    html, 
+    body {
+        margin: 0;
+    }
+
+    html, 
+    body, 
+    .container,
+    .container .side,
+    .container .side .banner,
+    .container .main,
+    .container .main .map-box{
+        height: 100%;
+    }
+
+    .container {
+        display:flex;
+    }
+
+
+
+
+    
+    /* 轮播区域 */
+    .container .side {
+        width: 20%;
+        background: pink;
+    }
+    .container .side .banner {
+        overflow: hidden;
+    }
+    .container .side .banner .not-exsit{
+        font-size: 100px;
+        font-family: Georgia, 'Times New Roman', Times, serif;
+        font-weight: bold;
+        position: absolute;
+        color: #666666;
+        text-shadow: 1px 1px 0px rgb(255, 255, 255);
+    } 
+    .container .side .banner .bg{
+        background: url(images/LiZhiCool.jpg) no-repeat center;
+        background-size: cover;
+        height: 100%;
+
+    }
+
+  
+
+
+
+    /* 主地图区域 */
+    .container .main {
+        width: 80%;
+    }
+    .container .main .header{
+        position: absolute;
+        right: 50px;
+        z-index: 1;
+    }
+    .container .main .header .logo{}
+    .container .main .header .nav{
+        text-align: center;
+    }
+    .container .main .map-box{}
+
+
+
+    
+
+
+    /* 地图宽，高 */
+    #container {
+        width:100%; height: 100%; 
+    } 

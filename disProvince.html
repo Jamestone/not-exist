@@ -1,0 +1,115 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv='X-UA-Compatible' content='IE=edge'>
+    <meta name="viewport" content="initial-scale=1.0, user-scalable=no, width=device-width">
+    <link rel="stylesheet" href="https://a.amap.com/jsapi_demos/static/demo-center/css/demo-center.css"/>
+    <style>
+        html,
+        body,
+        #container {
+            width: 100%;
+            height: 100%;
+            margin: 0;
+        }
+    </style>
+    <title>简易行政区图 - 省份&层级</title>
+</head>
+<body>
+<div id="container"></div>
+<div class="input-card">
+    <h4>选择省份</h4>
+    <select name="code-list" id="adcode-list" style="height: 28px;margin-right: 10px;" onchange="changeAdcode(this.value)">
+        <option value="-1">选择省份</option>
+    </select>
+    <h4>选择层级</h4>
+    <select name="code-list" style="height: 28px;margin-right: 10px;" onchange="changeDepth(this.value)">
+        <option value="0">0 - 显示省级</option>
+        <option value="1">1 - 显示市级</option>
+        <option selected value="2">2 - 显示区/县级</option>
+    </select>
+</div>
+<script src="https://webapi.amap.com/maps?v=1.4.14&key=您申请的key值&plugin=Map3D,AMap.DistrictLayer,AMap.Scale,AMap.ToolBar"></script>
+<script src="https://a.amap.com/Loca/static/mock/adcodes.js"></script>
+<script>
+    var adCode = 130000;
+    var depth = 2;
+    var map = new AMap.Map("container", {
+        zoom: 4.5,
+        center: [116.412427, 39.303573],
+        pitch: 0,
+        viewMode: '3D',
+    });
+
+    // 创建省份图层
+    var disProvince;
+    function initPro(code, dep) {
+        dep = typeof dep == 'undefined' ? 2 : dep;
+        adCode = code;
+        depth = dep;
+
+        disProvince && disProvince.setMap(null);
+
+        disProvince = new AMap.DistrictLayer.Province({
+            zIndex: 12,
+            adcode: [code],
+            depth: dep,
+            styles: {
+                'fill': function (properties) {
+                    // properties为可用于做样式映射的字段，包含
+                    // NAME_CHN:中文名称
+                    // adcode_pro
+                    // adcode_cit
+                    // adcode
+                    var adcode = properties.adcode;
+                    return getColorByAdcode(adcode);
+                },
+                'province-stroke': 'cornflowerblue',
+                'city-stroke': 'white', // 中国地级市边界
+                'county-stroke': 'rgba(255,255,255,0.5)' // 中国区县边界
+            }
+        });
+
+        disProvince.setMap(map);
+    }
+
+    // 颜色辅助方法
+    var colors = {};
+    var getColorByAdcode = function (adcode) {
+        if (!colors[adcode]) {
+            var gb = Math.random() * 155 + 50;
+            colors[adcode] = 'rgb(' + gb + ',' + gb + ',255)';
+        }
+
+        return colors[adcode];
+    };
+
+    // 按钮事件
+    function changeAdcode(code) {
+        if (code != 100000) {
+            initPro(code, depth);
+        }
+    }
+
+    function changeDepth(dep) {
+        initPro(adCode, dep);
+    }
+
+    initPro(adCode, depth);
+
+</script>
+<script>
+    // 构造下拉P
+    var optArr = adcodes.map(function (item) {
+        if (item.adcode == 100000) {
+            item.name = '选择省份';
+        }
+
+        return '<option ' + (item.adcode == adCode ? 'selected' : '') + ' value="' + item.adcode + '">' + item.name + '</option>';
+    });
+
+    document.getElementById('adcode-list').innerHTML = optArr.join('');
+</script>
+</body>
+</html>
