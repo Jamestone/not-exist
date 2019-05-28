@@ -1,5 +1,10 @@
 
     /* 全局样式 */
+
+    *{
+        cursor: default;
+    }
+
     html, 
     body {
         margin: 0;
