@@ -1,0 +1,23 @@
+{
+  "name": "not-exsit",
+  "version": "1.0.0",
+  "description": "",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "server": "browser-sync start --server --files \"**/*\"\n"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Jamestone/not-exist.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Jamestone/not-exist/issues"
+  },
+  "homepage": "https://github.com/Jamestone/not-exist#readme",
+  "devDependencies": {
+    "browser-sync": "^2.26.5"
+  }
+}

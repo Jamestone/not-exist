@@ -15,10 +15,6 @@ $.ajax({
         }
         console.log('转换：', api_status_desc);
         // api_status_desc = result;
-
-
-        
-
     }
 });
 
@@ -78,16 +74,14 @@ AMapUI.load(['ui/geo/DistrictExplorer', 'lib/$'], function (DistrictExplorer, $)
 
             if (popupInfo){
                 //更新提示内容
-                $tipMarkerContent.html(`<div style="background-color: cadetblue; width: 100px; height: 300px">
+                $tipMarkerContent.html(`<div class="tipMarkerWrapper">
     ${props.adcode} + ': ' + ${props.name}
     ${popupInfo.status_name}
-    <img src="${popupInfo.cover_url}">
 </div>`);
                 //更新位置
                 tipMarker.setPosition(position || props.center);
             }else{
-                console.warn('No Message')
-                $tipMarkerContent.html('加载中……')
+                $tipMarkerContent.html(`<div class="tipMarkerWrapper">加载中……</div>`)
             }
 
         }
@@ -117,13 +111,31 @@ AMapUI.load(['ui/geo/DistrictExplorer', 'lib/$'], function (DistrictExplorer, $)
         tipMarker.setPosition(e.originalEvent.lnglat);
     });
 
-    //feature被点击
+    //feature被点击，点击省份
     districtExplorer.on('featureClick', function (e, feature) {
 
         var props = feature.properties;
 
-        //如果存在子节点
+        //如果存在子节点，而且是省份
         if (props.childrenNum > 0 && isProvince(props.adcode) ) {
+
+            //拼接城市信息
+            $.ajax({
+                url: "http://admin.334live.com/api/status/city/"+api_status_desc[props.adcode].id,
+                data: {
+                    // zipcode: 97201
+                },
+                success: function( result ) {
+                    console.log('城市接口：', result);
+                    var list = result.data
+                    for (var i=0; i<list.length; i++){
+                        api_status_desc[list[i].adcode] = list[i];
+                    }
+                    console.log('转换：', api_status_desc);
+                    // api_status_desc = result;
+                }
+            });
+
             //切换聚焦区域
             switch2AreaNode(props.adcode);
         }
@@ -135,6 +147,24 @@ AMapUI.load(['ui/geo/DistrictExplorer', 'lib/$'], function (DistrictExplorer, $)
         districtExplorer.locatePosition(e.originalEvent.lnglat, function (error, routeFeatures) {
 
             if (routeFeatures && routeFeatures.length > 1) {
+
+                //拼接城市信息
+                $.ajax({
+                    url: "http://admin.334live.com/api/status/city/"+api_status_desc[routeFeatures[1].properties.adcode].id,
+                    data: {
+                        // zipcode: 97201
+                    },
+                    success: function( result ) {
+                        console.log('城市接口：', result);
+                        var list = result.data
+                        for (var i=0; i<list.length; i++){
+                            api_status_desc[list[i].adcode] = list[i];
+                        }
+                        console.log('转换：', api_status_desc);
+                        // api_status_desc = result;
+                    }
+                });
+
                 //切换到省级区域
                 switch2AreaNode(routeFeatures[1].properties.adcode);
             } else {

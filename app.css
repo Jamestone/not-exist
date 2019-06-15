@@ -1,81 +1,99 @@
+/* 全局样式 */
 
-    /* 全局样式 */
+* {
+    cursor: default;
+}
 
-    *{
-        cursor: default;
-    }
+html,
+body {
+    margin: 0;
+}
 
-    html, 
-    body {
-        margin: 0;
-    }
+html,
+body,
+.container,
+.container .side,
+.container .side .banner,
+.container .main,
+.container .main .map-box {
+    height: 100%;
+}
 
-    html, 
-    body, 
-    .container,
-    .container .side,
-    .container .side .banner,
-    .container .main,
-    .container .main .map-box{
-        height: 100%;
-    }
+.container {
+    display: flex;
+}
 
-    .container {
-        display:flex;
-    }
 
+/* 轮播区域 */
+.container .side {
+    width: 20%;
+    background: pink;
+}
+
+.container .side .banner {
+    overflow: hidden;
+}
+
+.container .side .banner .not-exsit {
+    font-size: 80px;
+    font-family: Georgia, 'Times New Roman', Times, serif;
+    font-weight: bold;
+    position: absolute;
+    color: #666666;
+    text-shadow: 1px 1px 0px rgb(255, 255, 255);
+}
+
+.container .side .banner .bg {
+    background: url(images/LiZhiCool.jpg) no-repeat center;
+    background-size: cover;
+    height: 100%;
+
+}
+
+
+/* 地图宽，高 */
+#container {
+    width: 100%;
+    height: 100%;
+}
+
+/* 主地图区域 */
+.container .main {
+    width: 80%;
+}
+
+.container .main .header {
+    position: absolute;
+    right: 50px;
+    z-index: 1;
+}
+
+.container .main .header .logo {
+}
+
+.container .main .header .nav {
+    text-align: center;
+}
+
+.container .main .map-box {
+}
+
+.container .main .map-box .tipMarker {
+}
+
+.amap-markers {
+    transition: all .3s ease-in-out;
+}
+.container .main .map-box .tipMarker .tipMarkerWrapper {
+    background-color: rgba(102, 102, 102, 0.9);
+    min-width: 10rem;
+    padding: 1rem;
+    border-radius: 0 1rem 1rem;
+    box-shadow: 5px 0 10px rgba(0,0,0,.2);
+}
 
 
 
     
-    /* 轮播区域 */
-    .container .side {
-        width: 20%;
-        background: pink;
-    }
-    .container .side .banner {
-        overflow: hidden;
-    }
-    .container .side .banner .not-exsit{
-        font-size: 100px;
-        font-family: Georgia, 'Times New Roman', Times, serif;
-        font-weight: bold;
-        position: absolute;
-        color: #666666;
-        text-shadow: 1px 1px 0px rgb(255, 255, 255);
-    } 
-    .container .side .banner .bg{
-        background: url(images/LiZhiCool.jpg) no-repeat center;
-        background-size: cover;
-        height: 100%;
-
-    }
-
-  
 
 
-
-    /* 主地图区域 */
-    .container .main {
-        width: 80%;
-    }
-    .container .main .header{
-        position: absolute;
-        right: 50px;
-        z-index: 1;
-    }
-    .container .main .header .logo{}
-    .container .main .header .nav{
-        text-align: center;
-    }
-    .container .main .map-box{}
-
-
-
-    
-
-
-    /* 地图宽，高 */
-    #container {
-        width:100%; height: 100%; 
-    } 
