@@ -1,4 +1,28 @@
 console.log('地图初始化！');
+
+var api_status_desc = {};
+
+$.ajax({
+    url: "http://admin.334live.com/api/status/province",
+    data: {
+        // zipcode: 97201
+    },
+    success: function( result ) {
+        console.log('接口：', result);
+        var list = result.data
+        for (var i=0; i<list.length; i++){
+            api_status_desc[list[i].adcode] = list[i];
+        }
+        console.log('转换：', api_status_desc);
+        // api_status_desc = result;
+
+
+        
+
+    }
+});
+
+
 // 创建地图
 var map334 = new AMap.Map('container', {
     mapStyle: 'amap://styles/90346cc0e942938e7bc3fc166e300dd6', //设置地图的显示样式
@@ -48,49 +72,22 @@ AMapUI.load(['ui/geo/DistrictExplorer', 'lib/$'], function (DistrictExplorer, $)
 
         if (isHover) {
 
-            var mockData = {
-                "110000": {
-                    "name": "名称",
-                    "description": "阿斯蒂芬就阿里斯顿发卡机撒地方就阿萨德法师打发就是打飞机额",
-                    "cover_url": "https://gss1.bdstatic.com/9vo3dSag_xI4khGkpoWK1HF6hhy/baike/s%3D220/sign=55fd414215950a7b713549c63ad0625c/500fd9f9d72a60593cd8fb6e2034349b023bbafd.jpg",
-                    "date": "2019年05月24日23:43:27",
-                    "status": 1,
-                    "theme": 1
-                },
-                "120000": {
-                    "name": "名称",
-                    "description": "阿斯蒂芬就阿里斯顿发卡机撒地方就阿萨德法师打发就是打飞机额",
-                    "cover_url": "http://www.baidu.com/logo.jpg",
-                    "date": "2019年05月24日23:43:27",
-                    "status": 1,
-                    "theme": 1
-                },
-                "130000": {
-                    "name": "名称",
-                    "description": "阿斯蒂芬就阿里斯顿发卡机撒地方就阿萨德法师打发就是打飞机额",
-                    "cover_url": "http://www.baidu.com/logo.jpg",
-                    "date": "2019年05月24日23:43:27",
-                    "status": 1,
-                    "theme": 1
-                },
-            }
-
             //获得地区信息对象
-            var popupInfo = mockData[props.adcode];
+            var popupInfo = api_status_desc[props.adcode];
             console.log(popupInfo);
 
             if (popupInfo){
                 //更新提示内容
                 $tipMarkerContent.html(`<div style="background-color: cadetblue; width: 100px; height: 300px">
     ${props.adcode} + ': ' + ${props.name}
-    ${popupInfo.description}
+    ${popupInfo.status_name}
     <img src="${popupInfo.cover_url}">
 </div>`);
                 //更新位置
                 tipMarker.setPosition(position || props.center);
             }else{
                 console.warn('No Message')
-                $tipMarkerContent.html('暂无该城市演出信息')
+                $tipMarkerContent.html('加载中……')
             }
 
         }
